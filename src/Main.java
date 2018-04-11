@@ -14,7 +14,22 @@ public class Main {
      * @param arrayList the ArrayList to be sorted. arrayList cannot contain duplicates
      */
     public static void selectionSort(ArrayList<Integer> arrayList) {
-        throw new UnsupportedOperationException("SelectionSort() has not been implemented yet");
+        int min, minIndex, index = 0;
+        while (index < arrayList.size()) {
+            min = arrayList.get(index);
+            minIndex = index;
+            //find the min
+            for (int i = index; i < arrayList.size(); i++) {
+                if (arrayList.get(i) < min) {
+                    min = arrayList.get(i);
+                    minIndex = i;
+                }
+            }
+            //swap the min
+            arrayList.set(minIndex, arrayList.get(index));
+            arrayList.set(index, min);
+            index++;
+        }
     }
 
     /**
@@ -24,7 +39,11 @@ public class Main {
      * @param value the value we are looking for in the array list
      */
     public static int linearSearch(ArrayList<Integer> arrayList, int value) {
-        throw new UnsupportedOperationException("LinearSearch() has not been implemented yet");
+        for(int i = 0; i < arrayList.size(); i++){
+            if(arrayList.get(i) == value)
+                return i;
+        }
+        return -1;
     }
 
     /**
@@ -35,7 +54,23 @@ public class Main {
      * @param value the value we are looking for in the array list
      */
     public static int binarySearch(ArrayList<Integer> arrayList, int value) {
-        throw new UnsupportedOperationException("LinearSearch() has not been implemented yet");
+        if(arrayList.size() == 0)
+            return -1;
+        int lowerBound = 0, upperBound = arrayList.size() - 1;
+        int index;
+        boolean c = true;
+        while(c){
+            index = (upperBound - lowerBound) / 2;
+            if(arrayList.get(index) == value) {
+                c = false;
+                return index;
+            }
+            else if(arrayList.get(index) > value)
+                lowerBound = index;
+            else
+                upperBound = index;
+        }
+        return -1;
     }
 
     /**
