@@ -54,23 +54,7 @@ public class Main {
      * @param value the value we are looking for in the array list
      */
     public static int binarySearch(ArrayList<Integer> arrayList, int value) {
-        if(arrayList.size() == 0)
-            return -1;
-        int lowerBound = 0, upperBound = arrayList.size() - 1;
-        int index;
-        boolean c = true;
-        while(c){
-            index = (upperBound - lowerBound) / 2;
-            if(arrayList.get(index) == value) {
-                c = false;
-                return index;
-            }
-            else if(arrayList.get(index) > value)
-                lowerBound = index;
-            else
-                upperBound = index;
-        }
-        return -1;
+        throw new UnsupportedOperationException("binarySearch() has not been implemented yet");
     }
 
     /**
@@ -79,7 +63,7 @@ public class Main {
      * @param arrayList the ArrayList to be sorted. arrayList cannot contain duplicates
      */
     public static void mergeSort(ArrayList<Integer> arrayList) {
-        throw new UnsupportedOperationException("mergeSort() has not been implemented yet");
+        sort(arrayList, 0, arrayList.size());
     }
 
     /**
@@ -92,7 +76,12 @@ public class Main {
      * @param hi the index of the last element in the range + 1.
      */
     public static void sort(ArrayList<Integer> arrayList, int lo, int hi) {
-        throw new UnsupportedOperationException("sort() has not been implemented yet");
+        if(lo < hi && hi <= 1){
+            int mid = (lo + hi) / 2;
+            sort(arrayList, lo, mid);
+            sort(arrayList, mid + 1, hi);
+            merge(arrayList, lo, mid, hi);
+        }
     }
 
     /**
@@ -106,6 +95,36 @@ public class Main {
      * @param hi the index of the last element in the second range + 1.
      */
     public static void merge(ArrayList<Integer> arrayList, int lo, int mid, int hi) {
-        throw new UnsupportedOperationException("merge() has not been implemented yet");
+        ArrayList<Integer> helperList = new ArrayList<>();
+        for(int i = lo; i <= hi; i++) {
+            helperList.add(arrayList.get(i));
+        }
+        int indexLeft = lo;
+        int indexRight = mid;
+        int currentIndex = lo;
+        while(indexLeft < mid && indexRight <= hi){
+            if(helperList.get(indexLeft) <= helperList.get(indexRight)){
+                arrayList.set(currentIndex, helperList.get(indexLeft));
+                indexLeft++;
+            }
+            else{
+                arrayList.set(currentIndex, helperList.get(indexRight));
+                indexRight++;
+            }
+            currentIndex++;
+        }
+        int remaining;
+        if(indexLeft > indexRight){
+            remaining = mid - indexLeft;
+            for(int i = 0; i <= remaining; i++){
+                arrayList.add(currentIndex + i, helperList.get(indexLeft + i));
+            }
+        }
+        else{
+            remaining = hi - indexRight;
+            for(int i = 0; i <= remaining; i++){
+                arrayList.add(currentIndex + i, helperList.get(indexRight + i));
+            }
+        }
     }
 }
