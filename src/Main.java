@@ -76,12 +76,14 @@ public class Main {
      * @param hi the index of the last element in the range + 1.
      */
     public static void sort(ArrayList<Integer> arrayList, int lo, int hi) {
-        if(lo < hi && hi <= 1){
-            int mid = (lo + hi) / 2;
-            sort(arrayList, lo, mid);
-            sort(arrayList, mid + 1, hi);
-            merge(arrayList, lo, mid, hi);
+        if(hi - lo <= 1) {
+            return;
         }
+
+        int mid = (hi + lo) / 2;
+        sort(arrayList, lo, mid);
+        sort(arrayList, mid, hi);
+        merge(arrayList, lo, mid, hi);
     }
 
     /**
@@ -95,35 +97,27 @@ public class Main {
      * @param hi the index of the last element in the second range + 1.
      */
     public static void merge(ArrayList<Integer> arrayList, int lo, int mid, int hi) {
-        ArrayList<Integer> helperList = new ArrayList<>();
-        for(int i = lo; i <= hi; i++) {
-            helperList.add(arrayList.get(i));
-        }
-        int indexLeft = lo;
-        int indexRight = mid;
-        int currentIndex = lo;
-        while(indexLeft < mid && indexRight <= hi){
-            if(helperList.get(indexLeft) <= helperList.get(indexRight)){
-                arrayList.set(currentIndex, helperList.get(indexLeft));
-                indexLeft++;
+        ArrayList<Integer> helperList = new ArrayList<Integer>();
+
+        int i = lo;
+        int j = mid;
+
+        while(i < mid || j < hi){
+            if(i == mid){
+                helperList.add(arrayList.get(i));
+                i++;
+            }
+            else if(j == hi){
+                helperList.add(arrayList.get(j));
+                j++;
+            }
+            else if(arrayList.get(i) < arrayList.get(j)){
+                helperList.add(arrayList.get(i));
+                i++;
             }
             else{
-                arrayList.set(currentIndex, helperList.get(indexRight));
-                indexRight++;
-            }
-            currentIndex++;
-        }
-        int remaining;
-        if(indexLeft > indexRight){
-            remaining = mid - indexLeft;
-            for(int i = 0; i <= remaining; i++){
-                arrayList.add(currentIndex + i, helperList.get(indexLeft + i));
-            }
-        }
-        else{
-            remaining = hi - indexRight;
-            for(int i = 0; i <= remaining; i++){
-                arrayList.add(currentIndex + i, helperList.get(indexRight + i));
+                helperList.add(helperList.get(j));
+                j++;
             }
         }
     }
